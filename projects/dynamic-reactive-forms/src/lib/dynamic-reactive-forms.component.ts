@@ -9,11 +9,11 @@ import { FormControlConfig } from './interfaces/config.interface';
   styleUrls: ['./dynamic-reactive-forms.component.scss']
 })
 export class DynamicReactiveFormsComponent implements AfterViewInit {
-  // @Input('config') config: FormControlConfig<null>[] | undefined;
+  @Input('config') config: FormControlConfig<any>[] = [];
 
   constructor() { }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
   }
 
 

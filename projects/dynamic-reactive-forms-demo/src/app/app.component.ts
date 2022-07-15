@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { DynamicReactiveFormsService, FormControlConfig } from 'dynamic-reactive-forms';
+import { DynamicReactiveFormsService, FormControlConfig, InputTypeEnum } from 'dynamic-reactive-forms';
 
 @Component({
   selector: 'app-root',
@@ -17,11 +17,37 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    this.config = [{
-      defaultValue: '',
-      name: 'First Name',
-      order: 1
-    }]
+
+    this.config = [
+      {
+        defaultValue: null,
+        name: 'First Name',
+        required: true,
+        inputType: InputTypeEnum.Text,
+        order: 1,
+
+      } as unknown as FormControlConfig<string>,
+      {
+        defaultValue: null,
+        name: 'Last Name',
+        required: true,
+        inputType: InputTypeEnum.Text,
+        order: 2
+      } as unknown as FormControlConfig<string>,
+      {
+        name: 'Age',
+        min: 1,
+        inputType: InputTypeEnum.Number,
+        order: 3
+      } as unknown as FormControlConfig<number>,
+      {
+        name: 'DOB',
+        required: true,
+
+        inputType: InputTypeEnum.Date,
+        order: 3
+      } as unknown as FormControlConfig<Date>,
+    ]
 
     this.form = this.dynamicReactiveForms.createFromGroup(this.config);
     console.log(this.form?.value)

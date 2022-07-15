@@ -4,7 +4,7 @@ export interface Config<T> {
   name: string,
   order: number,
   defaultValue: T,
-  inputType?: InputTypeEnum
+  inputType: InputTypeEnum
   required?: boolean,
   label?: string,
   max?: number,
@@ -17,7 +17,7 @@ export class FormControlConfig<T> implements Config<T>{
   name: string;
   order: number;
   defaultValue: T;
-  inputType?: InputTypeEnum;
+  inputType: InputTypeEnum;
   required?: boolean;
   label?: string;
   max?: number;
@@ -27,7 +27,7 @@ export class FormControlConfig<T> implements Config<T>{
   constructor(config: Config<T>) {
     this.name = config.name || '';
     this.order = config.order === undefined ? 1 : config.order;
-    this.inputType = config.inputType || InputTypeEnum.Text;
+    this.inputType = config.inputType;
     this.required = !!config.required;
     this.defaultValue = config.defaultValue;
     this.label = config.label || '';

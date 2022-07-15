@@ -13,7 +13,8 @@ export class DynamicReactiveFormsService {
       console.error("Form control config is undefined or empty");
       return;
     }
-    const group: any = {};
+
+    let group: any = {};
     let sortedObj = configObj.sort((n1, n2) => (n1.order > n2.order) ? 1 : -1);
 
     sortedObj.forEach(formControl => {
@@ -21,10 +22,10 @@ export class DynamicReactiveFormsService {
       if (formControl?.required) {
         validators.push(Validators.required);
       }
-      if (formControl.max) {
+      if (formControl.max && this.isFieldNumeric(formControl.inputType)) {
         validators.push(Validators.max(formControl.max));
       }
-      if (formControl.min) {
+      if (formControl.min && this.isFieldNumeric(formControl.inputType)) {
         validators.push(Validators.min(formControl.min));
       }
       if (formControl.validationPatterns && formControl.validationPatterns.length > 0) {
@@ -32,9 +33,12 @@ export class DynamicReactiveFormsService {
           validators.push(Validators.pattern(x));
         })
       }
+
       const defaultValue = (formControl.defaultValue ? formControl.defaultValue : this.getDefaultValue(formControl.inputType || InputTypeEnum.Text));
       group[formControl.name] = validators.length > 0 ? new FormControl(defaultValue, validators) : new FormControl(defaultValue);
-    })
+    });
+
+    console.log("aa", group);
     return new FormGroup(group);
   }
 
@@ -71,4 +75,17 @@ export class DynamicReactiveFormsService {
     }
     return defaultValue;
   }
+
+  private isFieldNumeric(formControlType: InputTypeEnum) {
+
+    if (formControlType == InputTypeEnum.Number ||
+      formControlType == InputTypeEnum.Month ||
+      formControlType == InputTypeEnum.Week) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
 }
